@@ -154,14 +154,14 @@ def sim_calc(clr_dict,unan_set):
 
 def get_heatmap(sim_dict):
     
-    names = sim_dict.keys()
-
+    names = sim_dict.keys()    
+    
     #district info to help sort the dataframe
     districts = {
-            'Ken Sanchez': 1, 
-            'Isaac Benton': 2,
-            'Klarissa J. Pena': 3, 
-            'Brad Winter': 4, 
+             'Ken Sanchez': 1, 
+             'Isaac Benton': 2,
+             'Klarissa J. Pena': 3, 
+             'Brad Winter': 4, 
              'Cynthia D. Borrego':5, 
              'Dan Lewis': 5, 
              'Patrick Davis': 6, 
