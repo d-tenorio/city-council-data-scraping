@@ -1,78 +1,81 @@
-body, #empty {
-	background-color: #e5f9e0;
-	font-size: 18px;
-	color: #664147;
-	position: relative;
+body,
+#empty {
+  background-color: #e5f9e0;
+  font-size: 18px;
+  color: #664147;
+  position: relative;
 }
 
-footer p{
-	text-align:center;
-	background-color: #a3f7b5;	
-	margin: 0;
+footer p {
+  text-align: center;
+  background-color: #a3f7b5;
+  margin: 0;
 }
 
 footer {
-	background-color: #e5f9e0;	
-	margin-top: 130px;
+  background-color: #e5f9e0;
+  margin-top: 130px;
 }
 
 #toc li a {
-	color: #164744;
+  color: #164744;
 }
 
-
 #toc {
-	list-style-type: none;
+  list-style-type: none;
 }
 
 .sidebar {
-	font-size: 10px;
+  font-size: 10px;
 }
 
-h1, h6 {
-	text-align: center;
+h1,
+h6 {
+  text-align: center;
 }
 
 h3 {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 ul.nav-pills {
-    top: 20px;
-    position: fixed;
-  }
-
-ul.nav-pills li.active a{
-	background-color: #2f9c95;
+  top: 20px;
+  position: fixed;
 }
 
-ul.nav-pills li a:hover, ul.nav-pills li.active a:hover{
-	background-color: #a3f7b5;
+ul.nav-pills li.active a {
+  background-color: #2f9c95;
+}
+
+ul.nav-pills li a:hover,
+ul.nav-pills li.active a:hover {
+  background-color: #a3f7b5;
 }
 
 #toc {
-  	margin-top:10px;
-  }
+  margin-top: 10px;
+}
 
 #img-div {
-	text-align: center;
+  text-align: center;
 }
 
 #heatmap {
-	height:620px;
-	margin:auto;
-	border: 1px solid black;
+  height: 620px;
+  margin: auto;
+  border: 1px solid black;
 }
 
 table {
   border-collapse: collapse;
   text-align: center;
   background-color: #40c9a2;
-  margin:auto;
-  
+  margin: auto;
 }
 
-table, th, td {
+table,
+th,
+td {
   border: 1px solid black;
 }
 
@@ -81,32 +84,34 @@ th {
 }
 
 td {
-	text-align: center;
+  text-align: center;
 }
 
-th, td {
-	padding: 10px;
+th,
+td {
+  padding: 10px;
 }
 
 tr:nth-child(even) {
-	background-color: #e5f9e0;
+  background-color: #e5f9e0;
 }
 
 #table-div {
-	overflow-x:auto;
+  overflow-x: auto;
 }
 
-hr { 
+hr {
   border-width: 3px;
   border-color: #2f9c95;
   width: 100%;
-} 
+}
 
 .center-this {
-	text-align: center;
+  text-align: center;
 }
 
 @media only screen and (max-width: 1200px) {
   #toc {
     display: none;
+  }
 }
