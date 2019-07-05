@@ -1,4 +1,4 @@
-body {
+body, #empty {
 	background-color: #e5f9e0;
 	font-size: 18px;
 	color: #664147;
@@ -8,11 +8,12 @@ body {
 footer p{
 	text-align:center;
 	background-color: #a3f7b5;	
+	margin: 0;
 }
 
 footer {
-	
-	margin: 20px 20px;
+	background-color: #e5f9e0;	
+	margin-top: 130px;
 }
 
 #toc li a {
@@ -63,6 +64,37 @@ ul.nav-pills li a:hover, ul.nav-pills li.active a:hover{
 	border: 1px solid black;
 }
 
+table {
+  border-collapse: collapse;
+  text-align: center;
+  background-color: #40c9a2;
+  margin:auto;
+  
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th {
+  text-align: left;
+}
+
+td {
+	text-align: center;
+}
+
+th, td {
+	padding: 10px;
+}
+
+tr:nth-child(even) {
+	background-color: #e5f9e0;
+}
+
+#table-div {
+	overflow-x:auto;
+}
 
 hr { 
   border-width: 3px;
@@ -70,6 +102,9 @@ hr {
   width: 100%;
 } 
 
+.center-this {
+	text-align: center;
+}
 
 @media only screen and (max-width: 1200px) {
   #toc {

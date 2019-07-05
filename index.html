@@ -26,7 +26,7 @@
 	  			<li><a href="#councillors">BeautifulSoup: <br> Breaking it Down <br>by Councillor</a></li>
 	  			<li><a href="#csv">Cleaning up the CSVs</a></li>
 	  			<li><a href="#results">Results</a></li>
-	  			<li><a href="#other-findings">Other Findings</a></li>
+	  			<li><a href="#findings">Findings</a></li>
 	  			<li><a href="#datasets">Datasets, Files, <br> & Contact Info</a></li>
 	  			
 	  	</ul>
@@ -42,11 +42,11 @@
   		<div id="intro">
 	  		<h2>The Background</h2>
 
-	  		After a <a href="https://www.abqjournal.com/1329804/city-council-turns-down-move-to-use-rankedchoice-voting-ex-but-voters-may-get-their-say-on-the-issue-in-november.html">particularly disappointing vote</a> that happened recently by the Albuquerque City Council, a thought came to my head:
+	  		After a <a href="https://www.abqjournal.com/1329804/city-council-turns-down-move-to-use-rankedchoice-voting-ex-but-voters-may-get-their-say-on-the-issue-in-november.html">particularly disappointing vote</a> that happened recently by the <a href="https://www.cabq.gov/council">Albuquerque City Council</a>, a thought came to my head:
 
 	  		<h3>Do our city councillors pay attention to their constituents, or do they mainly just vote with each other?</h3>
 
-	  		To answer this question, I embarked on a journey and thought about the different parts I'd need to answer it. I needed data of some kind, but I ran into a roadblock: the <a href=" https://cabq.legistar.com">ABQ City Council website</a> makes it difficult to collect a lot of votes at once. That finding was discouraging: finding a specific vote would take a custom search and several clicks with no good workaround.
+	  		To answer this question, I embarked on a journey and thought about the different parts I'd need to answer it. I needed data of some kind, but I ran into a roadblock: the <a href=" https://cabq.legistar.com">ABQ Legistation's website</a> makes it difficult to collect a lot of votes at once. That finding was discouraging: finding a specific vote would take a custom search and several clicks with no good workaround.
 
 	  		That's when I turned to programming.
   		</div>
@@ -56,7 +56,7 @@
   		<div id="initial">
   			<h2>The Hunt Begins: Goals</h2>
 
-  			The first step was to find all the votes in a certain time range. I chose 2017-2019 for my time range, to see the effect of the most recent iteration of our city council. By including 2017 in this range, I could see if there was a change when Clr. Borrego, a Democrat, came into office to replace Dan Lewis, a Republican.
+  			The first step was to find all the votes in a certain time range. I chose 2017-2019 for my time range, to see the effect of the most recent iteration of our city council. By including 2017 in this range, I could see if there was a change when Clr. Borrego, a Democrat, came into office in Nov. 2017 to replace Dan Lewis, a Republican, in the 2017 election.
 
   			<p class="sidebar"> That said, my code does work for any given range of times: if you can search it on the website, the code can handle it. </p>
 
@@ -77,11 +77,11 @@
   		<div id="search">
 
   			<h2>The Selenium Search</h2>
-  			Python has the lovely <a href="https://pythonspot.com/selenium/">Selenium</a> framework which allowed me to use a web driver to execute the search on the city council web page without having to type in all the different parameters on my own. 
+  			Firstly, I needed to compile a list of links for each bill over my desired time period. Thankfully, Python 3.X has the lovely <a href="https://pythonspot.com/selenium/">Selenium</a> framework which allowed me to use a web driver to execute a search on the city council web page without having to type in all the different parameters on my own. 
 
   			The code for this part involved finding the right CSS selector to allow the web driver to type and click in the right places. The search had multiple pages of results, so I also needed to go through each page to obtain a complete list.
 
-  			Once I had this search down, I could store a list of hyperlinks for each bill from the desired time period.
+  			Once I had this search done, I could store a list of ABQ bill hyperlinks.
 
   		</div> <!-- end of search -->
 
@@ -90,9 +90,9 @@
   		<div id="votes">
 
   			<h2>From The Bills to the Votes</h2>
-  			After getting the hyperlinks containing each bill, I then had to scrape each of those pages to find all the votes taken by the city council. At this point, when I tried too many links my web driver began to time out. TimeoutExceptions became my life. 
+  			After getting the hyperlinks containing each bill, I then scraped each of those pages to find all the votes taken by the city council. A lot of different actions can be taken on a bill, and only some of them involve a city council vote. At this point, when I tried too many links my web driver began to time out. Tragically, TimeoutExceptions became my life. <br>
 
-  			I tried to switch to <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup4</a> to work around this issue, since these pages were static and didn't require interaction. For reasons I couldn't figure out, some of the responses from the requests made to the bill pages were massive: too big for BeautifulSoup to handle. Thus, I stuck with the web driver and broke the data down into chunks to combine later. I created some Vote objects to store interesting vote information (vote result, bill name, bill description). I ended up with a list of Vote objects, each one corresponding to a vote taken by the city council. 
+  			I tried to switch to <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup4</a> to work around this issue, since these pages were static and didn't require interaction. For reasons I couldn't figure out, some of the responses from the HTTP requests made to the bill pages were massive: too big for BeautifulSoup to handle. So, I stuck with the web driver and broke the data down into chunks to combine later. I created a Vote object class to store interesting vote information (vote result, bill name, bill description). I ended up with a list of Vote objects, each one corresponding to a vote taken by the city council. 
   		</div> <!-- end of votes -->
 
   		<hr>
@@ -100,9 +100,9 @@
   		<div id="councillors">
   			<h2>BeautifulSoup: Breaking it Down by Councillor</h2>
 
-  			Once I had the links for each vote taken by the city council, I could scrape them for vote information: how did each councillor vote on each bill? I created a Councillor object to hold information on each councillor, like their district, name, a dictionary of votes they've participated in along with their specific action on each vote. 
+  			Once I had the links for each vote taken by the city council, I could scrape them for vote information: how did each councillor vote on each bill? I created a Councillor object to hold information on each councillor, like their district, name, a dictionary of votes they've participated in along with their specific action on each vote. <br>
 
-  			I realized that I was again dealing with static HTML, so I could reformat my code to use BeautifulSoup instead of a Selenium web driver for some gains in speed and a reduction in timeouts. The change worked this time, and my code could run to completion more often. This change dramatically improved my ability to evaluate a lot of links at once. I created a custom Councillor object to store all the interesting vote information like their district, name, and a dictionary of votes along with their particular action taken on each vote (For/Against/Excused).
+  			I realized that I was again dealing with static HTML, so I could reformat my code to use BeautifulSoup instead of a Selenium web driver for some gains in speed and a reduction in timeouts. The change worked this time, and my code could run to completion more often. This change dramatically improved my ability to evaluate a lot of links at once. I created a custom Councillor object to store all the interesting vote information like their district, name, and a dictionary of the votes they participated in along with their particular action taken on each vote (For/Against/Excused).
 
   		</div> <!-- end of councillors -->
 
@@ -111,7 +111,7 @@
   		<div id="csv">
   			<h2>Cleaning up the CSVs</h2>
 
-  			As mentioned, I needed a workaround for my inability to analyze all of these votes at once due to the web driver timing out. I decided to save each segment of the vote information to its own .csv file and write some more code to combine those .csv files into one master file. 
+  			As mentioned, I needed a workaround for my inability to analyze all of these votes at once due to the web driver timing out. I decided to save each segment of the vote information to its own .csv file and write some more code to combine those .csv files into one master file. For 2017-2019, I ended up splitting the data into three chunks.
   		</div> <!-- end of csv -->
 
   		<hr>
@@ -119,11 +119,11 @@
   		<div id="results">
   			<h2>Results</h2>
   			
-  			I had finally collected all the data I needed: every vote taken by the city council over a given time range, broken down by councillor! There would have been tens of thousands of clicks and pages loaded needed for someone to gather this information on their own: talk about efficiency!
+  			I had finally collected all the data I needed: every vote taken by the city council over a given time range, broken down by councillor! There would have been tens of thousands of clicks and pages loaded needed for someone to gather this information on their own. Talk about efficiency!
 
-  			I had a metric in mind: percentage of votes in common. That is, given all of the votes that any two councillors have taken together, for what percentage of those votes do said councillors vote in the same way? 
+  			I had a metric in mind: percentage of votes in common. That is, given all of the votes that any two councillors have taken together, for what percentage of those votes do said councillors vote in the same way? There were <b>1023 votes</b> overall, but not every councillor votes each time: some votes are only done with a subcommittee. 
 
-  			I omitted unanimous votes from consideration, and also excluded cases where one councillor was marked as Excused; I wanted to know about the votes where councillors made a different decision from each other. I used pandas and seaborn to make the heat map below: 
+  			I omitted unanimous votes from consideration, and also excluded cases where one councillor was marked as Excused; I wanted to know about the votes where councillors made a different decision from each other. I used pandas, seaborn, and matplotlib to produce the heat map below: 
   			<div id="img-div">
   			 <img src="heatmap_example.png" id="heatmap" class="img-responsive" alt="heat_map"> 
   			</div>
@@ -131,18 +131,107 @@
 
   		<hr>
 
-  		<div id="other-findings">
-  		<h2>Other Findings</h2>
+  		<div id="findings">
+  		<h2>Findings</h2>
 
-  		There were some other findings I found interesting for the votes from this time period:
+  		There were a number of findings I found interesting for the votes from this time period. From the heatmap, I made the following conclusions:
+  		<ul>
+  			<li>The average percent of votes in common across all of the councillors is <b>87.2%</b>.</li>
+  			<li>The district 5 election did result in change: Clr. Borrego does have ad ifferent voting pattern than Clr. Lewis did.</li>
+  			<li>If we think of any two councillors that vote more than 90% in common as being "voting partners", then there are a few pairs (shown in descending order):
+  				<div id="table-div">
+	  				<table id="clr-table">
+						<tbody>
+						<tr>
+						<td>Clr1</td>
+						<td>District</td>
+						<td>Clr2</td>
+						<td>District</td>
+						</tr>
+						<tr>
+						<td>Pe&ntilde;a</td>
+						<td>3</td>
+						<td>Sanchez</td>
+						<td>1</td>
+						</tr>
+						<tr>
+						<td>Pe&ntilde;a</td>
+						<td>3</td>
+						<td>Borrego</td>
+						<td>5</td>
+						</tr>
+						<tr>
+						<td>Gibson</td>
+						<td>7</td>
+						<td>Benton</td>
+						<td>2</td>
+						</tr>
+						<tr>
+						<td>Borrego</td>
+						<td>5</td>
+						<td>Sanchez</td>
+						<td>1</td>
+						</tr>
+						<tr>
+						<td>Gibson</td>
+						<td>7</td>
+						<td>Jones</td>
+						<td>8</td>
+						</tr>
+						<tr>
+						<td>Jones</td>
+						<td>8</td>
+						<td>Winter</td>
+						<td>4</td>
+						</tr>
+						<tr>
+						<td>Davis</td>
+						<td>6</td>
+						<td>Benton</td>
+						<td>2</td>
+						</tr>
+						<tr>
+						<td>Harris</td>
+						<td>9</td>
+						<td>Lewis</td>
+						<td>5*</td>
+						</tr>
+						<tr>
+						<td>Gibson</td>
+						<td>7</td>
+						<td>Davis</td>
+						<td>6</td>
+						</tr>
+						</tbody>
+						</table>
+					</div>
+						<div class="center-this"><p class="sidebar">*replaced by Clr. Borrego in Nov. 2017</p></div>
+					
+  			</li>
+  		</ul>
+
+  		Additionally, the following was true:
   		<ul>
   			<li> <b>97.6%</b> of all of the votes taken passed.</li>
   			<li><b>46.6%</b> of all the votes taken were unanimous.</li>
   		</ul>
+
   		All in all, this was a great project with some cool learnings for me:
   		<ul>
-  			<li>Familiarity with some useful Python libraries (Selenium, BS4, Pandas + Seaborn)</li>
-  			<li>The ability to use programming to improve civic engagement and literacy, answering questions like, "how does my city councillor vote?" Doing this data gathering and analysis by hand would have been exhausting (on the order of 10,000 clicks and page loads)	, and the current structure of the data represents a real issue of accessibility.</li>
+  			<li>The total list of technologies used:
+  				<ul>
+  					<li>Python 3.7, installed using Anaconda and developed with the Spyder IDE</li>
+  					<li>Selenium</li>
+  					<li>BeautifulSoup + requests</li>
+  					<li>csv</li>
+  					<li>Pandas</li>
+  					<li>Seaborn + Pyplot from Matplotlib</li>
+  					<li>HTML5 + CSS3 + Twitter Bootstrap 4 for this website</li>
+  					<li>Git + Github + Github Pages for version control and hosting</li>
+  				</ul>
+
+  			</li>
+  			<li>The ability to use programming to improve civic engagement and literacy, answering questions like, "how does my city councillor vote?" Gathering this data and doing this analysis by hand would have been exhausting (on the order of 10,000 clicks and page loads, not to mention all of the manual entry), and the current structure of the data represents a real issue of accessibility.</li>
 
   		</ul>
 
@@ -166,22 +255,27 @@
   			<li><em>similarity_calc.py</em> does the similarity calculations from a vote.csv file and saves the heatmap</li>
   		</ol>
 
-  		Pay attention to the names of the .csv files used in the code! Each file should be well-commented to help gain an understanding. All other files are helper files. 
+  		Pay attention to the names of the .csv files used in the code! Each file should be well-commented to promote clarity. All other .py files are helper files. 
   		<br>
 
   		Think I could have done better? Find a mistake in the data or have an idea or some other cool piece of information I could show off? Feel free to <a href ="mailto:dtenorio.work@gmail.com">contact me.</a> There's a lot of neat info about our city! It's just a matter of finding it and making it useful.
   		<br>
-  		-- David Tenorio <br>
+  		-- Saludos, <br>
+  		David Tenorio <br>
   		</div>
+
+  		
 
   	</div> <!--end of col-sm-10-->
 
 
   </div> <!--end of row-->
+  
   <!--Footer-->
-  <!-- <footer class="row footer"> -->
-   	<!-- <div class="panel-footer col-sm-12"><p>July 7 2019, David Tenorio</p></div> -->
-  <!-- </footer> -->
+  		<footer class="row footer"> 
+  			<div class="col-sm-2" id="empty"></div>
+   			<div class="panel-footer col-sm-10"><p>&copy; 2019 <a href="https://github.com/d-tenorio">David Tenorio</a></p></div> 
+  		</footer> 
 
 </div> <!--end of content-->
 
