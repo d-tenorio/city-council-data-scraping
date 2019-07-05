@@ -8,7 +8,7 @@ import csv
 
 def write_out_votes(c_list, v_list, fname = None):
     """
-    takes in a list of Councillor objects, c_list
+    takes in a list of Councilor objects, c_list
     and a list of Vote objects, v_list
     
     the optional input fname can specify where to save the output
@@ -50,17 +50,17 @@ def write_out_votes(c_list, v_list, fname = None):
             rows[4].append(curr_vote.result)
             
             curr_i = 5
-            #go through each councillor
+            #go through each councilor
             for c in c_list:
-                #find the vote information by that councillor
+                #find the vote information by that councilor
                 if curr_vote.link in c.votes: 
                     name = c.name
-                    #account for the enye in one councillor's name
+                    #account for the enye in one councilor's name
                     if '\u5358' in name:
                        name = 'Klarissa J. Pena'
                     rows[curr_i].append(name + '|' +  c.votes[curr_vote.link])
                     curr_i += 1
-            #for votes with less than 9 councillors present, add a filler value
+            #for votes with less than 9 councilors present, add a filler value
             while curr_i < 14:
                 rows[curr_i].append('N/A')
                 curr_i += 1
@@ -70,17 +70,37 @@ def write_out_votes(c_list, v_list, fname = None):
         
     writeFile.close()
     
-def write_out_councillors(c_list,v_list, fname = None):
+def write_out_councilors(c_list,v_list, fname = None):
     if not fname:
-        fname= 'councillors_2017_to_2019.csv'
+        fname= 'councilors_2017_to_2019.csv'
     with open(fname, 'w', newline='') as writeFile:
         writer = csv.writer(writeFile)
         output = []
         curr_col = 1
         for i,c in enumerate(c_list):
+            
+            districts = {
+             'Ken Sanchez': 1, 
+             'Isaac Benton': 2,
+             'Klarissa J. Pena': 3, 
+             'Brad Winter': 4, 
+             'Cynthia D. Borrego':5, 
+             'Dan Lewis': 5, 
+             'Patrick Davis': 6, 
+             'Diane G. Gibson' : 7, 
+             'Trudy E. Jones': 8,
+             'Don Harris': 9
+            }
+            
+
             #accounting for the enye
             if 'Klarissa' in c.name:
                        c.name = 'Klarissa J. Pena'
+                
+            #populate the district for each Councilor object
+            c.district = districts[c.name]
+                       
+                       
             #the first column should contain titles for readability
             if i == 0:
                 output.append(['Name',c.name])

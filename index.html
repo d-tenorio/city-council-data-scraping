@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>ABQ City Councillor Votes</title>
+	<title>ABQ City Councilor Votes</title>
 
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
-<body data-spy="scroll" data-target="#scroll-target" data-offset="20">
+<body data-spy="scroll" data-target="#scroll-target" data-offset="20">`
 
 	<div class="container-fluid" id="content">
 
@@ -25,7 +25,7 @@
 					<li><a href="#initial">The Hunt Begins</a></li>
 					<li><a href="#search">The Selenium Search</a></li>
 					<li><a href="#votes">From The Bills <br>to the Votes</a></li>
-					<li><a href="#councillors">BeautifulSoup: <br> Breaking it Down <br>by Councillor</a></li>
+					<li><a href="#councilors">BeautifulSoup: <br> Breaking it Down <br>by Councilor</a></li>
 					<li><a href="#csv">Cleaning up the CSVs</a></li>
 					<li><a href="#results">Results</a></li>
 					<li><a href="#findings">Findings</a></li>
@@ -36,7 +36,7 @@
 
 			<div class="col-lg-10 col-md-12 col-sm-12">
 
-				<h1 id="title">How Frequently does each Albuquerque City <br> Councillor Vote with the Others?</h1>
+				<h1 id="title">How Frequently does each Albuquerque City <br> councilor Vote with the Others?</h1>
 				<h6>a code-fueled investigation by David Tenorio, frequently concerned Burqueño</h6>
 
 				<hr>
@@ -49,7 +49,7 @@
 						disappointing vote</a> that happened recently by the <a
 						href="https://www.cabq.gov/council">Albuquerque City Council</a>, a thought came to my head:
 
-					<h3>Do our city councillors pay attention to their constituents, or do they mainly just vote with
+					<h3>Do our city councilors pay attention to their constituents, or do they mainly just vote with
 						each other?</h3>
 
 					To answer this question, I embarked on a journey and thought about the different parts I'd need to
@@ -77,16 +77,36 @@
 					I then sought out to create the following data pipeline:
 					<ol>
 						<li>Execute a search for the desired time range on the City's website to collect a list of links
-							for each bill</li>
+							for each bill. <br>
+							<code>[bill_link1, bill_link2, bill_link3,...]</code>
+						</li>
+
 						<li>For each bill, there can be any number of votes taken by the council, due to the numerous
 							revisions bills go through before they're finally passed. As such, I wanted to collect all
 							of the links to each city council vote for each bill. While I'm there, scrape the
-							information for each vote. </li>
-						<li>With that list of links for each vote, scrape the page to find out how each councillor
+							information for each vote. <br>
+							<code>[vote_link1, vote_link2, vote_link3,...] <br>
+								  vote_1: url, bill_name, bill_desc, date, result (Pass/Fail), clr1_action (For/Against/Excused), clr2_action, ...
+							</code>
+
+						</li>
+						<li>With that list of links for each vote, scrape the page to find out how each councilor
 							voted. This would leave me with a lot of information: a ton of votes showing how each
-							councillor voted, all gathered using code! </li>
+							councilor voted, all gathered using code! <br>
+							<code>[clr1, clr2, clr3,...] <br>
+								  clr1: clr_name, district, years_active, vote1 | action, vote2 | action, ...
+							</code>
+
+						</li>
 						<li>Analyze the data to see how frequently each council member votes in common with each other
-							member to see if there were clear 'cliques' that formed between different councillors.</li>
+							member to see if there were clear 'cliques' that formed between different councilors. <br>
+							<code>clr1 + clr2: X% <br>
+								  clr1 + clr3: Y% <br>
+								  ...
+							</code>
+
+
+						</li>
 						<li>Write up that journey and those findings for display here (subtly displaying my HTML/CSS
 							prowess)!</li>
 					</ol>
@@ -104,6 +124,11 @@
 					allowed me to use a web driver to execute a search on the city council web page without having to
 					type in all the different parameters on my own.
 
+					<div class="img-div center-this sidebar">
+						<img src="gifs/initial_search.gif" id="search-gif" class="img-responsive gif" alt="search-gif">
+						Imagine having to do all of this by hand? Selenium automates it!
+					</div>
+
 					The code for this part involved finding the right CSS selector to allow the web driver to type and
 					click in the right places. The search had multiple pages of results, so I also needed to go through
 					each page to obtain a complete list.
@@ -120,37 +145,46 @@
 					After getting the hyperlinks containing each bill, I then scraped each of those pages to find all
 					the votes taken by the city council. A lot of different actions can be taken on a bill, and only
 					some of them involve a city council vote. At this point, when I tried too many links my web driver
-					began to time out. Tragically, TimeoutExceptions became my life. <br>
+					began to time out. Tragically, TimeoutExceptions became my life. 
 
-					I tried to switch to <a
-						href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup4</a> to work around
+					<div class="img-div center-this sidebar">
+						<img src="gifs/bill_scraping.gif" id="bill-scraping-gif" class="img-responsive gif" alt="bill-scraping-gif">
+						So, this process, but hundreds and hundreds of times
+					</div>
+
+					I tried to switch to <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup4</a> to work around
 					this issue, since these pages were static and didn't require interaction. For reasons I couldn't
 					figure out, some of the responses from the HTTP requests made to the bill pages were massive: too
 					big for BeautifulSoup to handle. So, I stuck with the web driver and broke the data down into chunks
 					to combine later. I created a Vote object class to store interesting vote information (vote result,
-					bill name, bill description). I ended up with a list of Vote objects, each one corresponding to a
+					bill name, bill description, date, etc.). I ended up with a list of Vote objects, each one corresponding to a
 					vote taken by the city council.
 				</div> <!-- end of votes -->
 
 				<hr>
 
-				<div id="councillors">
-					<h2>BeautifulSoup: Breaking it Down by Councillor</h2>
+				<div id="councilors">
+					<h2>BeautifulSoup: Breaking it Down by Councilor</h2>
 
 					Once I had the links for each vote taken by the city council, I could scrape them for vote
-					information: how did each councillor vote on each bill? I created a Councillor object to hold
-					information on each councillor, like their district, name, a dictionary of votes they've
-					participated in along with their specific action on each vote. <br>
+					information: how did each councilor vote on each bill? I created a councilor object to hold
+					information on each councilor, like their district, name, a dictionary of votes they've
+					participated in along with their specific action on each vote. 
+
+					<div class="img-div center-this sidebar">
+						<img src="gifs/vote_scraping.gif" id="vote-scraping-gif" class="img-responsive gif" alt="vote-scraping-gif">
+						The sheer monotony of this task really makes you wonder how accessible the city wants it to be!
+					</div>
 
 					I realized that I was again dealing with static HTML, so I could reformat my code to use
 					BeautifulSoup instead of a Selenium web driver for some gains in speed and a reduction in timeouts.
 					The change worked this time, and my code could run to completion more often. This change
-					dramatically improved my ability to evaluate a lot of links at once. I created a custom Councillor
+					dramatically improved my ability to evaluate a lot of links at once. I created a custom councilor
 					object to store all the interesting vote information like their district, name, and a dictionary of
 					the votes they participated in along with their particular action taken on each vote
 					(For/Against/Excused).
 
-				</div> <!-- end of councillors -->
+				</div> <!-- end of councilors -->
 
 				<hr>
 
@@ -169,18 +203,18 @@
 					<h2>Results</h2>
 
 					I had finally collected all the data I needed: every vote taken by the city council over a given
-					time range, broken down by councillor! There would have been tens of thousands of clicks and pages
-					loaded needed for someone to gather this information on their own. Talk about efficiency!
+					time range, broken down by councilor! There would have been tens of thousands of clicks and pages
+					loaded needed for someone to gather this information on their own. Talk about efficiency! <br>
 
 					I had a metric in mind: percentage of votes in common. That is, given all of the votes that any two
-					councillors have taken together, for what percentage of those votes do said councillors vote in the
-					same way? There were <b>1023 votes</b> overall, but not every councillor votes each time: some votes
-					are only done with a subcommittee.
+					councilors have taken together, for what percentage of those votes do said councilors vote in the
+					same way? There were <b>1023 votes</b> overall, but not every councilor votes each time (some votes
+					are only done with a subcommittee). <br>
 
-					I omitted unanimous votes from consideration, and also excluded cases where one councillor was
-					marked as Excused; I wanted to know about the votes where councillors made a different decision from
-					each other. I used pandas, seaborn, and matplotlib to produce the heat map below:
-					<div id="img-div">
+					I omitted unanimous votes from consideration, and also excluded cases where one councilor was
+					marked as Excused; I wanted to know about the votes where councilors made a different decision from
+					each other. I used pandas, seaborn, and matplotlib to produce the heat map below: <br>
+					<div class="img-div">
 						<img src="heatmap_example.png" id="heatmap" class="img-responsive" alt="heat_map">
 					</div>
 				</div> <!-- end of results -->
@@ -193,11 +227,11 @@
 					There were a number of findings I found interesting for the votes from this time period. From the
 					heatmap, I made the following conclusions:
 					<ul>
-						<li>The average percent of votes in common across all of the councillors is <b>87.2%</b>.</li>
-						<li>The district 5 election did result in change: Clr. Borrego does have ad ifferent voting
+						<li>The average percent of votes in common across all of the councilors is <b>87.2%</b>.</li>
+						<li>The district 5 election did result in change: Clr. Borrego does have a different voting
 							pattern than Clr. Lewis did.</li>
-						<li>If we think of any two councillors that vote more than 90% in common as being "voting
-							partners", then there are a few pairs (shown in descending order):
+						<li>If we think of any two councilors that vote more than 90% in common as being "voting
+							partners", then there are a few such pairs (shown in descending order):
 							<div id="table-div">
 								<table id="clr-table">
 									<tbody>
@@ -293,7 +327,7 @@
 
 						</li>
 						<li>The ability to use programming to improve civic engagement and literacy, answering questions
-							like, "how does my city councillor vote?" Gathering this data and doing this analysis by
+							like, "how does my city councilor vote?" Gathering this data and doing this analysis by
 							hand would have been exhausting (on the order of 10,000 clicks and page loads, not to
 							mention all of the manual entry), and the current structure of the data represents a real
 							issue of accessibility.</li>
@@ -309,12 +343,12 @@
 
 					The .csv datasets can be found here:
 					<ul id="docs">
-						<li><a href="councillors_2017_to_2019_example_output.csv"
-								download="councillors_2017_to_2019_example_output.csv">Organized by councillor</a></li>
+						<li><a href="councilors_2017_to_2019_example_output.csv"
+								download="councilors_2017_to_2019_example_output.csv">Organized by councilor</a></li>
 						<li><a href="votes_2017_to_2019_example_output.csv"
 								download="votes_2017_to_2019_example_output.csv">Organized by vote</a></li>
 					</ul>
-					There is an Excel version of the Councillors file along with all of the code located in the <a
+					There is an Excel version of the councilors file along with all of the code located in the <a
 						href="https://github.com/d-tenorio/city-council-data-scraping">Github repository.</a> I'm a big
 					believer in open-source so if you see improvements to be made, go for it! To use these files
 					yourself, there are three different files to run (and almost certainly in this order):
@@ -334,11 +368,12 @@
 
 					Think I could have done better? Find a mistake in the data or have an idea or some other cool piece
 					of information I could show off? Feel free to <a href="mailto:dtenorio.work@gmail.com">contact
-						me.</a> There's a lot of neat info about our city! It's just a matter of finding it and making
+					me.</a> There's a lot of neat info about our city! It's just a matter of finding it and making
 					it useful.
-					<br>
-					-- Saludos, <br>
-					David Tenorio <br>
+					<div class="center-this">
+					Saludos, <br>
+					David Tenorio
+					</div>
 				</div>
 
 				<!-- Footer -->

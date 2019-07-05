@@ -6,16 +6,6 @@ body,
   position: relative;
 }
 
-footer p {
-  text-align: center;
-  background-color: #a3f7b5;
-  margin: 0;
-}
-
-footer {
-  background-color: #e5f9e0;
-  margin-top: 130px;
-}
 
 #toc li a {
   color: #164744;
@@ -26,7 +16,11 @@ footer {
 }
 
 .sidebar {
-  font-size: 10px;
+  font-size: 12px;
+}
+
+code {
+  background-color: #40c9a2;
 }
 
 h1,
@@ -56,12 +50,18 @@ ul.nav-pills li.active a:hover {
   margin-top: 10px;
 }
 
-#img-div {
+.img-div {
   text-align: center;
 }
 
+.gif {
+  height: 280px;
+  margin: auto;
+  border: 1px solid black;
+}
+
 #heatmap {
-  height: 620px;
+  height: 580px;
   margin: auto;
   border: 1px solid black;
 }
@@ -71,6 +71,7 @@ table {
   text-align: center;
   background-color: #40c9a2;
   margin: auto;
+  font-size: 80%;
 }
 
 table,
@@ -108,6 +109,18 @@ hr {
 
 .center-this {
   text-align: center;
+  margin-top: 10px;
+}
+
+footer p {
+  text-align: center;
+  background-color: #a3f7b5;
+  margin: 0;
+}
+
+footer {
+  background-color: #e5f9e0;
+  margin-top: 50px;
 }
 
 @media only screen and (max-width: 1200px) {

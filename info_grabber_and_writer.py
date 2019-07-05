@@ -100,11 +100,11 @@ def get_bill_links(years_of_interest, browser=None,quitBrowser=True):
 def get_votes(links, browser=None,quitBrowser=True):
     """get_vote-info takes in a set of links to individual bills and
         returns two things: 
-        -a list of Councillor objects categorizing each councillor along with 
+        -a list of Councilor objects categorizing each councilor along with 
         their action taken on each bill
         -a list of Vote objects categorizing each vote
     """
-    #populate votes first, councillors later
+    #populate votes first, councilors later
     votes = []
     
     if not browser:
@@ -170,13 +170,13 @@ def get_votes(links, browser=None,quitBrowser=True):
     return votes
 
 
-def get_councillor_info(votes):
+def get_councilor_info(votes):
     
     #now that we have all of the pages containing votes, we need only
-    #visit them to find out how each councillor voted on them
-    #store these in a dictionary where the key is a string with the name of the councillor
-    #and the value is a Councillor object
-    councillor_dict = {}
+    #visit them to find out how each councilor voted on them
+    #store these in a dictionary where the key is a string with the name of the councilor
+    #and the value is a Councilor object
+    councilor_dict = {}
     
     
     for vote in votes:
@@ -192,7 +192,7 @@ def get_councillor_info(votes):
         rows = page_content.select(rows_selector)
         
         
-        #each row should have a councillor's name + the action they took
+        #each row should have a councilor's name + the action they took
         for row in rows:
             #try lock to see if the vote is empty (no actions taken)
             try:
@@ -206,15 +206,15 @@ def get_councillor_info(votes):
             if 'Klarissa' in name:
                 name = 'Klarissa J. Pena'
             
-            #create a new Councillor object if needed
-            if name in councillor_dict:
-                councillor_dict[name].votes[link] = action
+            #create a new Councilor object if needed
+            if name in councilor_dict:
+                councilor_dict[name].votes[link] = action
             else:
-                councillor_dict[name] = Councillor(name,{},"",[])
-                councillor_dict[name].votes[link] = action
+                councilor_dict[name] = Councilor(name,{},"",[])
+                councilor_dict[name].votes[link] = action
                     
     #we only need the objects themselves rather than the full dictionary
-    return list(councillor_dict.values())
+    return list(councilor_dict.values())
        
     
            
@@ -222,23 +222,26 @@ if __name__ == "__main__":
     years_of_interest = ["2017","2018","2019"] #change this input to reflect the years you wish to obtain data from
     
     #initialize webdriver 
-    #browser = webdriver.Firefox()
+    browser = webdriver.Firefox()
     
     #gets the links where every single bill from the desired years are stored
-    #all_bills = get_bill_links(years_of_interest, browser) 
-    #bills_list = list(all_bills) #can turn the links into a list to be able to analyze only a subset to prevent timeouts
+    all_bills = get_bill_links(years_of_interest, browser) 
+    
+    #can turn the links into a list to be able to analyze only a subset to prevent timeouts
+    #bills_list = list(all_bills) 
     #all_votes = get_votes2(bills_list[:50])
     
     #get a list of hyperlinks for every vote taken on each bill
-    #all_votes = get_votes(bills_list[:100],browser)
+    all_votes = get_votes(all_bills,browser)
+    
 
-    #get a list of Councillor objects, containing every single action taken by each councillor on a vote
-    councillors = get_councillor_info(all_votes[:50])
+    #get a list of Councilor objects, containing every single action taken by each councilor on a vote
+    councilors = get_councilor_info(all_votes)
 
     #save information to .csv files...
     
     #...organized by each vote 
-    write_out_votes(councillors,all_votes) 
-    #...organized by councillor
-    write_out_councillors(councillors,all_votes) 
+    write_out_votes(councilors,all_votes) 
+    #...organized by councilor
+    write_out_councilors(councilors,all_votes) 
 

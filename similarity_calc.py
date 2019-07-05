@@ -31,7 +31,7 @@ def clr_dict_getter(df):
     rows = df.shape[0]
     cols = df.shape[1] #number of unique votes taken
     
-    #nested dictionary to hold relations between each councillor
+    #nested dictionary to hold relations between each councilor
     clr_dict = collections.defaultdict(dict)
     
     #sets to determine other statistics
@@ -53,7 +53,7 @@ def clr_dict_getter(df):
         if result == 'Pass':
             passed.add(link)
         
-        #now, get the action from each councillor who voted on a particular bill
+        #now, get the action from each councilor who voted on a particular bill
         for row in range(5,rows):
             cell_info_raw = df.iloc[row,col]
             
@@ -70,7 +70,7 @@ def clr_dict_getter(df):
            
             action = cell_info[1]
             
-            #store the action this councillor took on this bill
+            #store the action this councilor took on this bill
             clr_dict[clr_name][link] = action
             
   
@@ -92,14 +92,14 @@ def clr_dict_getter(df):
 
 def sim_calc(clr_dict,unan_set):
     """
-    takes in a nested dictionary of Councillor names + votes + action taken
+    takes in a nested dictionary of Councilor names + votes + action taken
     on each vote
     
     and calculates the percentage of votes in common between each pair of
-    councillors
+    councilors
     
     sim_calc returns a dictionary holding that score for each pair of 
-    councillors
+    councilors
     
     """
     
@@ -107,8 +107,8 @@ def sim_calc(clr_dict,unan_set):
     names = clr_dict.keys()
     sim_dict = collections.defaultdict(dict)
     
-    #subscript 1 for the original councillor 
-    #subscript 2 for the councillor being compared
+    #subscript 1 for the original councilor 
+    #subscript 2 for the councilor being compared
     for name_1 in names:
         links_1 = clr_dict[name_1].keys()
         for name_2 in names:
@@ -122,7 +122,7 @@ def sim_calc(clr_dict,unan_set):
                 total_votes_in_common = 0
                 actions_in_common = 0
                 for url in links_1:
-                    #make sure both councillors voted on this vote
+                    #make sure both councilors voted on this vote
                     #and omit unanimous votes
                     if url in clr_dict[name_2] and (url not in unan_set):
                         total_votes_in_common += 1
@@ -135,7 +135,7 @@ def sim_calc(clr_dict,unan_set):
                              total_votes_in_common -= 1
                              continue
                         
-                        #these two councillors voted together on this vote
+                        #these two councilors voted together on this vote
                         if action_1 == action_2:
                             actions_in_common += 1
                             

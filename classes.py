@@ -23,10 +23,10 @@ class Vote:
         return repr([self.link,self.name,self.desc,self.result,self.date])
         
 
-class Councillor:
+class Councilor:
     """
-    represents the votes taken by an individual councillor, along with information
-    about that councillor
+    represents the votes taken by an individual councilor, along with information
+    about that councilor
     """
     def __init__(self, name="", votes = {}, district = "", years_active = set()):
         self.name = name
