@@ -1,7 +1,7 @@
 body,
 #empty {
   background-color: #e5f9e0;
-  font-size: 18px;
+  font-size: 20px;
   color: #664147;
   position: relative;
 }
@@ -16,7 +16,7 @@ body,
 }
 
 .sidebar {
-  font-size: 12px;
+  font-size: 60%;
 }
 
 code {
@@ -33,6 +33,7 @@ h3 {
 }
 
 ul.nav-pills {
+  font-size: 80%;
   top: 20px;
   position: fixed;
 }

@@ -21,12 +21,12 @@
 			<nav class="col-lg-2 col-md-0 col-sm-0" id="scroll-target">
 				<ul id="toc" class="nav nav-pills nav-stacked">
 					<li class="active"><a href="#scroll-target">Home</a></li>
-					<li><a href="#intro">The Background</a></li>
+					<li><a href="#intro">Background</a></li>
 					<li><a href="#initial">The Hunt Begins</a></li>
-					<li><a href="#search">The Selenium Search</a></li>
-					<li><a href="#votes">From The Bills <br>to the Votes</a></li>
-					<li><a href="#councilors">BeautifulSoup: <br> Breaking it Down <br>by Councilor</a></li>
-					<li><a href="#csv">Cleaning up the CSVs</a></li>
+					<li><a href="#search">Selenium Search</a></li>
+					<li><a href="#votes">From the Bills <br>to the Votes</a></li>
+					<li><a href="#councilors">Breaking it Down <br>by Councilor</a></li>
+					<li><a href="#csv">Cleaning Up <br> the CSVs</a></li>
 					<li><a href="#results">Results</a></li>
 					<li><a href="#findings">Findings</a></li>
 					<li><a href="#datasets">Datasets, Files, <br> & Contact Info</a></li>
@@ -36,13 +36,13 @@
 
 			<div class="col-lg-10 col-md-12 col-sm-12">
 
-				<h1 id="title">How Frequently does each Albuquerque City <br> councilor Vote with the Others?</h1>
+				<h1 id="title">How Frequently Does Each Albuquerque City <br> Councilor Vote with the Others?</h1>
 				<h6>a code-fueled investigation by David Tenorio, frequently concerned Burqueño</h6>
 
 				<hr>
 
 				<div id="intro">
-					<h2>The Background</h2>
+					<h2>Background</h2>
 
 					After a <a
 						href="https://www.abqjournal.com/1329804/city-council-turns-down-move-to-use-rankedchoice-voting-ex-but-voters-may-get-their-say-on-the-issue-in-november.html">particularly
@@ -64,7 +64,7 @@
 				<hr>
 
 				<div id="initial">
-					<h2>The Hunt Begins: Goals</h2>
+					<h2>The Hunt Begins</h2>
 
 					The first step was to find all the votes in a certain time range. I chose 2017-2019 for my time
 					range, to see the effect of the most recent iteration of our city council. By including 2017 in this
@@ -118,14 +118,14 @@
 
 				<div id="search">
 
-					<h2>The Selenium Search</h2>
+					<h2>Selenium Search</h2>
 					Firstly, I needed to compile a list of links for each bill over my desired time period. Thankfully,
 					Python 3.X has the lovely <a href="https://pythonspot.com/selenium/">Selenium</a> framework which
 					allowed me to use a web driver to execute a search on the city council web page without having to
 					type in all the different parameters on my own.
 
 					<div class="img-div center-this sidebar">
-						<img src="gifs/initial_search.gif" id="search-gif" class="img-responsive gif" alt="search-gif">
+						<img src="gifs/initial_search.gif" id="search-gif" class="img-responsive gif" alt="Slow, manual navigation of sample ABQ City Council search done by human">
 						Imagine having to do all of this by hand? Selenium automates it!
 					</div>
 
@@ -141,14 +141,14 @@
 
 				<div id="votes">
 
-					<h2>From The Bills to the Votes</h2>
+					<h2>From the Bills to the Votes</h2>
 					After getting the hyperlinks containing each bill, I then scraped each of those pages to find all
 					the votes taken by the city council. A lot of different actions can be taken on a bill, and only
 					some of them involve a city council vote. At this point, when I tried too many links my web driver
 					began to time out. Tragically, TimeoutExceptions became my life. 
 
 					<div class="img-div center-this sidebar">
-						<img src="gifs/bill_scraping.gif" id="bill-scraping-gif" class="img-responsive gif" alt="bill-scraping-gif">
+						<img src="gifs/bill_scraping.gif" id="bill-scraping-gif" class="img-responsive gif" alt="Slow, manual navigation of sample ABQ City bill webpage by human">
 						So, this process, but hundreds and hundreds of times
 					</div>
 
@@ -164,7 +164,7 @@
 				<hr>
 
 				<div id="councilors">
-					<h2>BeautifulSoup: Breaking it Down by Councilor</h2>
+					<h2>Breaking it Down by Councilor</h2>
 
 					Once I had the links for each vote taken by the city council, I could scrape them for vote
 					information: how did each councilor vote on each bill? I created a councilor object to hold
@@ -172,7 +172,7 @@
 					participated in along with their specific action on each vote. 
 
 					<div class="img-div center-this sidebar">
-						<img src="gifs/vote_scraping.gif" id="vote-scraping-gif" class="img-responsive gif" alt="vote-scraping-gif">
+						<img src="gifs/vote_scraping.gif" id="vote-scraping-gif" class="img-responsive gif" alt="Slow, manual navigation of sample ABQ City Council vote webpage by human">
 						The sheer monotony of this task really makes you wonder how accessible the city wants it to be!
 					</div>
 
@@ -215,7 +215,7 @@
 					marked as Excused; I wanted to know about the votes where councilors made a different decision from
 					each other. I used pandas, seaborn, and matplotlib to produce the heat map below: <br>
 					<div class="img-div">
-						<img src="heatmap_example.png" id="heatmap" class="img-responsive" alt="heat_map">
+						<img src="heatmap_example.png" id="heatmap" class="img-responsive" alt="heat map displaying councilor correlations">
 					</div>
 				</div> <!-- end of results -->
 
